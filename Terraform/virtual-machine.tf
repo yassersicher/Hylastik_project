@@ -20,6 +20,37 @@ resource "azurerm_subnet" "subnet" {
   virtual_network_name = azurerm_virtual_network.virtual_network.name
   address_prefixes     = ["10.0.2.0/24"]
 }
+resource "azurerm_network_security_group" "security_group" {
+  name                = "allow_port_connection"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+
+  # Inbound Rule for Port 8088 for keycloak
+  security_rule {
+    name                       = "Allow-8088"
+    priority                  = 100
+    direction                 = "Inbound"
+    access                    = "Allow"
+    protocol                  = "Tcp"
+    source_port_range         = "*"
+    destination_port_range    = "8088"
+    source_address_prefix     = "*"
+    destination_address_prefix = "*"
+  }
+
+  # Inbound Rule for Port 8001 for nginx
+  security_rule {
+    name                       = "Allow-8001"
+    priority                  = 101
+    direction                 = "Inbound"
+    access                    = "Allow"
+    protocol                  = "Tcp"
+    source_port_range         = "*"
+    destination_port_range    = "8001"
+    source_address_prefix     = "*"
+    destination_address_prefix = "*"
+  }
+}
 
 resource "azurerm_network_interface" "interface" {
   name                = "${var.prefix}-nic"
@@ -31,6 +62,7 @@ resource "azurerm_network_interface" "interface" {
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
   }
+  network_security_group_id = azurerm_network_security_group.security_group.id
 }
 
 resource "azurerm_virtual_machine" "virtual_machine" {
