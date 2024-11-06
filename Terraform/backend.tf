@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.5.0"  
 # I manually created the resource group, storage account, and container from the Azure portal to store the state file.   
   backend "azurerm" {
     resource_group_name   = "rg-terraform-backend"
