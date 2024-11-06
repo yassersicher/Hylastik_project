@@ -61,10 +61,10 @@ resource "azurerm_network_interface" "interface" {
     name                          = "testconfiguration1"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
-  }
+  
   network_security_group_id = azurerm_network_security_group.security_group.id
 }
-
+}
 resource "azurerm_virtual_machine" "virtual_machine" {
   name                  = "${var.prefix}-vm"
   location              = azurerm_resource_group.resource_group.location
