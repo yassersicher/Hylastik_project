@@ -51,7 +51,10 @@ resource "azurerm_network_security_group" "security_group" {
     destination_address_prefix = "*"
   }
 }
-
+resource "azurerm_subnet_network_security_group_association" "sec-group-association" {
+  subnet_id                 = azurerm_subnet.subnet.id
+  network_security_group_id = azurerm_network_security_group.security_group.id
+}
 resource "azurerm_network_interface" "interface" {
   name                = "${var.prefix}-nic"
   location            = azurerm_resource_group.resource_group.location
