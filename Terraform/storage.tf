@@ -1,10 +1,3 @@
-provider "azurerm" {
-  features {}
-  client_id       = var.client_id
-  client_secret   = var.client_secret
-  tenant_id       = var.tenant_id
-  subscription_id = var.subscription_id
-}
 
 # Resource group for the storage account
 resource "azurerm_resource_group" "rg-tfstate" {
@@ -24,7 +17,7 @@ resource "azurerm_storage_account" "storage-state-file" {
 
 # Container for storing the state file
 resource "azurerm_storage_container" "container" {
-  name                  = "tfstate"
+  name                  = "tfstate-container"
   storage_account_name  = azurerm_storage_account.storage-state-file.name
   container_access_type = "private"
 }
