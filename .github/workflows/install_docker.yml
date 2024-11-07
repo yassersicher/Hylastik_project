@@ -17,7 +17,13 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
+      - name: Add SSH key
+        run: |
+          mkdir -p ~/.ssh  # 
+          echo "${{ secrets.AZURE_VM_SSH_KEY }}" > ~/.ssh/id_rsa  # Save the SSH private key
+          chmod 600 ~/.ssh/id_rsa  # Set permissions for the private key
+          eval "$(ssh-agent -s)"  
+          ssh-add ~/.ssh/id_rsa  # Add the private key to the SSH agent
       - name: Add VM to Ansible inventory
         run: |
           echo "[azure_vm]" > inventory
