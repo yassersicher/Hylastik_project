@@ -55,6 +55,13 @@ resource "azurerm_subnet_network_security_group_association" "sec-group-associat
   subnet_id                 = azurerm_subnet.subnet.id
   network_security_group_id = azurerm_network_security_group.security_group.id
 }
+resource "azurerm_public_ip" "public_ip" {
+  name                = "${var.prefix}-public-ip"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+  allocation_method   = "Dynamic"
+}
+
 resource "azurerm_network_interface" "interface" {
   name                = "${var.prefix}-nic"
   location            = azurerm_resource_group.resource_group.location
@@ -64,7 +71,7 @@ resource "azurerm_network_interface" "interface" {
     name                          = "testconfiguration1"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
-   
+    public_ip_address_id          = azurerm_public_ip.public_ip.id
    
   }
   
