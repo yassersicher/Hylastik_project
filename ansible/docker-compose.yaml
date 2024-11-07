@@ -12,8 +12,8 @@ services:
       ADMIN_USER: admin  
       ADMIN_PASSWORD: admin  
       PROXY_MODE: edge  
-      ADMIN_URL: https://localhost:8088 
-      CLIENT_URL: https://localhost:8088  
+      ADMIN_URL: http://localhost:8088 
+      CLIENT_URL: http://localhost:8088  
     networks:
       - keycloak_nginx_network
 
