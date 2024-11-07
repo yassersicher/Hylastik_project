@@ -20,7 +20,7 @@ jobs:
       - name: Add SSH key
         run: |
           mkdir -p ~/.ssh  # 
-          echo "${{ secrets.AZURE_VM_SSH_KEY }}" > /home/runner/.ssh/id_rsa .ssh/id_rsa  # Save the SSH private key
+          echo "${{ secrets.AZURE_VM_SSH_KEY }}" > ~/.ssh/id_rsa  # Save the SSH private key
           chmod 600 ~/.ssh/id_rsa  # Set permissions for the private key
           eval "$(ssh-agent -s)"  
           ssh-add ~/.ssh/id_rsa  # Add the private key to the SSH agent
@@ -31,4 +31,4 @@ jobs:
 
       - name: Run Ansible playbook
         run: |
-          ansible-playbook -i inventory ansible/docker_installation.yaml -u azureuser --private-key /home/runner/.ssh/id_rsa  -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"'
+          ansible-playbook -i inventory ansible/docker_installation.yaml -u azureuser --private-key ~/.ssh/id_rsa -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"'
