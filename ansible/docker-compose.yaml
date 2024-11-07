@@ -12,15 +12,15 @@ services:
       ADMIN_USER: admin  
       ADMIN_PASSWORD: admin  
       PROXY_MODE: edge  
-      ADMIN_URL: https://localhost:8443  
-      CLIENT_URL: https://localhost:8443  
+      ADMIN_URL: https://localhost:8088 
+      CLIENT_URL: https://localhost:8088  
     networks:
-      - keycloak_nginx_dev_network
+      - keycloak_nginx_network
 
   postgres_container:
     image: postgres:14.2
     volumes:
-      - pgdata_keycloak_nginx_demo:/var/lib/postgresql/data
+      - pgdata_keycloak_nginx:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
@@ -28,19 +28,19 @@ services:
     ports:
       - "5436:5432"
     networks:
-      - keycloak_nginx_dev_network
+      - keycloak_nginx_network
 
   keycloak_nginx:
     image: nginx:alpine
     ports:
       - "8001:80"
     depends_on:
-      - keycloak_demo
+      - keycloak_container
     networks:
-      - keycloak_nginx_dev_network
+      - keycloak_nginx_network
 
 volumes:
-  pgdata_keycloak_nginx_demo:
+  pgdata_keycloak_nginx:
 
 networks:
-  keycloak_nginx_dev_network:
+  keycloak_nginx_network:
