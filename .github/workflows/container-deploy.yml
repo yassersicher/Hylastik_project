@@ -19,10 +19,10 @@ jobs:
         ssh-private-key: ${{ secrets.AZURE_VM_SSH_KEY }}  
     - name: Copy Docker Compose File
       run: |
-        scp -o StrictHostKeyChecking=no ./ansible/docker-compose.yaml testadmin@20.224.56.187:/home/azureuser/docker-compose.yaml
+        scp -o StrictHostKeyChecking=no ./ansible/docker-compose.yaml testadmin@20.224.56.187:/home/docker-compose.yaml
     - name: Copy Nginx Configuration File
       run: |
-        scp -o StrictHostKeyChecking=no ./nginx.conf testadmin@20.224.56.187:/home/azureuser/nginx.conf
+        scp -o StrictHostKeyChecking=no ./nginx.conf testadmin@20.224.56.187:/home/nginx.conf
     - name: Install Docker Compose
       run: |
         ssh -o StrictHostKeyChecking=no testadmin@20.224.56.187 'sudo apt-get update && sudo apt-get install -y docker-compose && sudo docker-compose down --volumes'
