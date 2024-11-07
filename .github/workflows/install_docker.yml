@@ -31,4 +31,4 @@ jobs:
 
       - name: Run Ansible playbook
         run: |
-          ansible-playbook -i inventory ansible/docker_installation.yaml -u azureuser --private-key ~/.ssh/id_rsa -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"'
+          ansible-playbook -i inventory ansible/docker_installation.yaml -u testadmin --private-key ~/.ssh/id_rsa -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"'
