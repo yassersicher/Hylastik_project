@@ -17,6 +17,9 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: set permission
+        run: |
+          chmod 600 ~/.ssh/id_rsa  
       
       - name: Add VM to Ansible inventory
         run: |
