@@ -27,7 +27,7 @@ jobs:
       - name: Add VM to Ansible inventory
         run: |
           echo "[azure_vm]" > inventory
-          echo "13.93.82.114" >> inventory  
+          echo "20.224.56.187" >> inventory  
 
       - name: Run Ansible playbook
         run: |
