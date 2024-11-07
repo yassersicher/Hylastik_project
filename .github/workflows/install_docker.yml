@@ -1,0 +1,37 @@
+name: Install Docker in Azure VM with Ansible
+
+on:
+  push:
+    branches:
+      - feature/configuration
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Add SSH key
+        run: |
+          mkdir -p ~/.ssh  # In this block, a private key is used because the virtual machine was created through the portal, demonstrating how to handle SSH connections.
+          echo "${{ secrets.AZURE_VM_SSH_KEY }}" > ~/.ssh/id_rsa  
+          chmod 600 ~/.ssh/id_rsa  # Set permissions for the private key
+          eval "$(ssh-agent -s)"  
+          ssh-add ~/.ssh/id_rsa  
+      # For the VM created with Terraform, we only need to use its IP address with the path for SSH access, as the SSH key was already specified during its creation.
+    
+
+      - name: Add VM to Ansible inventory
+        run: |
+          echo "[azure_vm]" > inventory
+          echo "20.224.56.187" >> inventory  
+
+      - name: Run Ansible playbook
+        run: |
+          ansible-playbook -i inventory ansible/docker_installation.yaml -u testadmin --private-key ~/.ssh/id_rsa -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"'
