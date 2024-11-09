@@ -8,7 +8,7 @@ The VM runs an Ubuntu Server and is connected to a Network Interface (NIC), whic
 ## Configuration of the Infrastructure
 ### -Installation and configuration of Docker
 The Ansible playbook automates the process of setting up Docker on remote systems. It begins by ensuring that the necessary system packages and repositories are configured, followed by adding Docker's official software sources. The playbook then installs Docker and ensures that the Docker service is not only running but also set to start automatically when the system boots
-### -Creation of Iontainers 
+### -Creation of Containers 
 This Docker Compose file configures a three-container setup with Keycloak, PostgreSQL, and NGINX:
 Keycloak: Provides identity management, connects to PostgreSQL for storage, and is set up with necessary database and admin credentials.
 PostgreSQL: Stores Keycloak data, using a dedicated volume for persistence.
